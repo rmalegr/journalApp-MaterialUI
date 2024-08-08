@@ -11,6 +11,7 @@ export const AuthLayout = ({ children, title = "" }) => {
       alignItems="center"
       alignContent="center"
     >
+
       {/* caja blanca  */}
       <Grid
         item
