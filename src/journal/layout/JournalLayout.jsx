@@ -8,15 +8,18 @@ export const JournalLayout = ({ children }) => {
     <Box sx={{ display: "flex" }}>
       {/* NavNar  drawerWidth */}
       <NavBar drawerWidth={drawerWidth} />
-
+      {/* Sidebar drawerWidth */}
       <SideBar drawerWidth={drawerWidth} />
+      {/* Main content */}
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        {/* Toolbar */}
         <Toolbar />
+        {/* Content */}
         {children}
       </Box>
-
       {/* Footer */}
+      {/* <Footer /> */}
     </Box>
   );
 };
