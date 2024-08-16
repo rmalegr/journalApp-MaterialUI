@@ -6,16 +6,17 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { starCreatingUserrWithEmailPassword } from "../../store/auth/";
 
 const formData = {
+  displayName: "",
   email: "",
   password: "",
-  displayName: "",
 };
 
 const formValidations = {
@@ -49,7 +50,9 @@ export const RegisterPage = () => {
     event.preventDefault();
     setFormSubmitted(true);
     console.log(formState);
+
     if (!isFormValid) return;
+    dispatch(starCreatingUserrWithEmailPassword(formState));
   };
 
   return (
@@ -98,7 +101,7 @@ export const RegisterPage = () => {
 
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             {/* Boton para crear cuenta */}
-            <Grid item xs={12} display={!errorMessage ? "" : "none"}>
+            <Grid item xs={12} display={!!errorMessage ? "" : "none"}>
               <Alert severity="error">{errorMessage}</Alert>
             </Grid>
             <Grid item xs={12}>
@@ -107,7 +110,6 @@ export const RegisterPage = () => {
               </Button>
             </Grid>
           </Grid>
-
           <Grid container direction="row" justifyContent="end">
             <Typography sx={{ mr: 1 }}>¿Ya tienes cuenta?</Typography>
             <Link component={RouterLink} color="inherit" to="/auth/login">
