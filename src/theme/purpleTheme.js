@@ -4,7 +4,7 @@ import { red } from "@mui/material/colors";
 export const prupleTheme = createTheme({
   palette: {
     primary: {
-      main: "#15032b",
+      main: "#1d0252",
     },
     secondary: {
       main: "#543884",

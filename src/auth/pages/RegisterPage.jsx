@@ -6,7 +6,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks";
@@ -33,6 +33,8 @@ export const RegisterPage = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const { status, errorMessage } = useSelector((state) => state.auth);
+  const isCheckingAuthentication = useMemo(() => status ==='checking', [status])
+
 
   const {
     formState,
@@ -101,11 +103,17 @@ export const RegisterPage = () => {
 
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             {/* Boton para crear cuenta */}
-            <Grid item xs={12} display={!!errorMessage ? "" : "none"}>
+            <Grid item xs={12}
+              display={!!errorMessage ? "" :
+                "none"}>
               <Alert severity="error">{errorMessage}</Alert>
             </Grid>
             <Grid item xs={12}>
-              <Button type="submit" variant="contained" fullWidth>
+              <Button
+                disabled={isCheckingAuthentication}
+                type="submit"
+                variant="contained"
+                fullWidth>
                 Crear Cuenta
               </Button>
             </Grid>
