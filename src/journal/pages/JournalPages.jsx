@@ -6,8 +6,8 @@ export const JournalPages = () => {
   return (
     <>
       <JournalLayout>
-         {/* <NothingSelectedView />  */}
-        <NoteView />
+         <NothingSelectedView /> 
+        {/* <NoteView /> */}
         <BotonFlotante />
       </JournalLayout>
     </>

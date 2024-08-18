@@ -63,7 +63,7 @@ export const LoginPage = () => {
           >
             <Grid item xs={12}
              >
-              <Alert  severity="error">{errorMessage}</Alert>
+              <Alert  variant="filled" severity="error">{errorMessage}</Alert>
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
