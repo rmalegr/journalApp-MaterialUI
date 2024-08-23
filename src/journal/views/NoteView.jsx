@@ -4,7 +4,7 @@ import { Button, Grid, TextField, Typography } from "@mui/material";
 import { ImageGallery } from "../components";
 import { useForm } from "../../hooks/useForm";
 import { useEffect, useMemo } from "react";
-import { setActiveNote } from "../../store/journal";
+import { setActiveNote, startSaveNote } from "../../store/journal";
 
 export const NoteView = () => {
   const dispatch = useDispatch();
@@ -21,6 +21,9 @@ export const NoteView = () => {
     dispatch(setActiveNote(formState));
   }, [formState]);
 
+  const saveNote = () => {
+    dispatch(startSaveNote());
+  };
   return (
     <Grid
       container
@@ -35,7 +38,7 @@ export const NoteView = () => {
         {dateString}
       </Typography>
       <Grid item>
-        <Button color="primary" sx={{ padding: 2 }}>
+        <Button color="primary" sx={{ padding: 2 }} onClick={saveNote}>
           <SaveOutlined sx={{ fontSize: 30, mr: 1 }} />
           Guardar
         </Button>
