@@ -22,7 +22,7 @@ export const startNewNote = () => {
 
     const newDoc = doc(collection(FirebaseDB, `${uid}/journal-1/notes`));
     const setDocResp = await setDoc(newDoc, newNote);
-    console.log({ newDoc, setDocResp });
+    // console.log({ newDoc, setDocResp });
     newNote.id = newDoc.id;
 
     //dispatch()
@@ -34,7 +34,7 @@ export const startNewNote = () => {
 export const startLoadingNotes = () => {
   return async (dispatch, getState) => {
     const { uid } = getState().auth;
-    console.log({ uid });
+    // console.log({ uid });
     if (!uid) throw new Error("El UID del usuario no existe");
 
     const notes = await loadNotes(uid);

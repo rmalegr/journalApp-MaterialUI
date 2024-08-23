@@ -5,6 +5,7 @@ import { SidebarItem } from "./";
 
 export const SideBar = ({ drawerWidth }) => {
   const { displayName } = useSelector((state) => state.auth);
+  // console.log("displayName = " + displayName);
   const { notes } = useSelector((state) => state.journal);
   return (
     <Box

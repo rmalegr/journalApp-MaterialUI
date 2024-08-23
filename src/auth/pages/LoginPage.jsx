@@ -1,21 +1,31 @@
 import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Google } from "@mui/icons-material";
-import { Alert, Button, Grid, Link, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Grid,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks";
-import {  startGoogleSignIn, startLoginWithEmailPassword } from "../../store/auth/";
+import {
+  startGoogleSignIn,
+  startLoginWithEmailPassword,
+} from "../../store/auth/";
 
+const FormData = {
+  email: "",
+  password: "",
+};
 export const LoginPage = () => {
   const dispatch = useDispatch();
-  const { status, errorMessage} = useSelector((state) => state.auth);
-  
+  const { status, errorMessage } = useSelector((state) => state.auth);
 
-  const { email, password, onInputChange } = useForm({
-    email: "",
-    password: "",
-  });
+  const { email, password, onInputChange } = useForm(FormData);
 
   const isAuthenticating = useMemo(() => status === "checking", [status]);
 
@@ -56,14 +66,11 @@ export const LoginPage = () => {
               fullWidth
             />{" "}
           </Grid>
-          <Grid container
-               display={!!errorMessage ? "" :
-              "none"}
-            sx={{mt:1}}
-          >
-            <Grid item xs={12}
-             >
-              <Alert  variant="filled" severity="error">{errorMessage}</Alert>
+          <Grid container display={!!errorMessage ? "" : "none"} sx={{ mt: 1 }}>
+            <Grid item xs={12}>
+              <Alert variant="filled" severity="error">
+                {errorMessage}
+              </Alert>
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
