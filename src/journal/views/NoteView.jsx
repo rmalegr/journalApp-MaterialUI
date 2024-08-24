@@ -1,18 +1,38 @@
-import { Swal } from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
-import { SaveOutlined } from "@mui/icons-material";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { SaveOutlined, UploadOutlined } from "@mui/icons-material";
+import {
+  Button,
+  Grid,
+  IconButton,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { ImageGallery } from "../components";
 import { useForm } from "../../hooks/useForm";
-import { useEffect, useMemo } from "react";
-import { setActiveNote, startSaveNote } from "../../store/journal";
+import { useEffect, useMemo, useRef } from "react";
+import {
+  setActiveNote,
+  startSaveNote,
+  startUploadingFiles,
+} from "../../store/journal";
+import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 
 export const NoteView = () => {
   const dispatch = useDispatch();
-  const { active: note, messageSaved } = useSelector((state) => state.journal);
+  const {
+    active: note,
+    messageSaved,
+    isSaving,
+  } = useSelector((state) => state.journal);
 
   const { body, title, date, onInputChange, formState } = useForm(note);
+
+  const onInputChangeFile = ({ target }) => {
+    if (target.files === 0) return;
+    dispatch(startUploadingFiles(target.files));
+  };
 
   const dateString = useMemo(() => {
     const newDate = new Date(date);
@@ -24,10 +44,11 @@ export const NoteView = () => {
   }, [formState]);
 
   useEffect(() => {
-    if (messageSaved !== undefined) {
+    if (messageSaved.length > 0) {
       Swal.fire("Nota actualizada", messageSaved, "success");
     }
   }, [messageSaved]);
+  const fileInputRef = useRef(null);
 
   const saveNote = () => {
     dispatch(startSaveNote());
@@ -45,12 +66,38 @@ export const NoteView = () => {
         {" "}
         {dateString}
       </Typography>
+
       <Grid item>
-        <Button color="primary" sx={{ padding: 2 }} onClick={saveNote}>
+        {/* <input type="file">File</input> */}
+        <input
+          type="file"
+          multiple
+          ref={fileInputRef}
+          onChange={onInputChangeFile}
+          style={{ display: "none" }}
+        />
+        <IconButton
+          color="primary"
+          disabled={isSaving}
+          onClick={() => fileInputRef.current.click()}
+          placeholder="Subir archivo"
+          sx={{ padding: 2 }}
+        >
+          <Tooltip title="Subir archivo">
+            <UploadOutlined />
+          </Tooltip>
+        </IconButton>
+        <Button
+          color="primary"
+          sx={{ padding: 2 }}
+          onClick={saveNote}
+          disabled={isSaving}
+        >
           <SaveOutlined sx={{ fontSize: 30, mr: 1 }} />
           Guardar
         </Button>
       </Grid>
+
       <Grid container>
         <TextField
           type="text"
