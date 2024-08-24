@@ -1,3 +1,4 @@
+import { Swal } from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { SaveOutlined } from "@mui/icons-material";
 import { Button, Grid, TextField, Typography } from "@mui/material";
@@ -5,10 +6,11 @@ import { ImageGallery } from "../components";
 import { useForm } from "../../hooks/useForm";
 import { useEffect, useMemo } from "react";
 import { setActiveNote, startSaveNote } from "../../store/journal";
+import "sweetalert2/dist/sweetalert2.css";
 
 export const NoteView = () => {
   const dispatch = useDispatch();
-  const { active: note } = useSelector((state) => state.journal);
+  const { active: note, messageSaved } = useSelector((state) => state.journal);
 
   const { body, title, date, onInputChange, formState } = useForm(note);
 
@@ -20,6 +22,12 @@ export const NoteView = () => {
   useEffect(() => {
     dispatch(setActiveNote(formState));
   }, [formState]);
+
+  useEffect(() => {
+    if (messageSaved !== undefined) {
+      Swal.fire("Nota actualizada", messageSaved, "success");
+    }
+  }, [messageSaved]);
 
   const saveNote = () => {
     dispatch(startSaveNote());

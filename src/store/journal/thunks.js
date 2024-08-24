@@ -5,6 +5,8 @@ import {
   savingNewNote,
   setActiveNote,
   setNotes,
+  setSaving,
+  updateNote,
 } from "./JournalSlice";
 import { loadNotes } from "../../helpers";
 
@@ -45,6 +47,7 @@ export const startLoadingNotes = () => {
 
 export const startSaveNote = () => {
   return async (dispatch, getState) => {
+    dispatch(setSaving());
     const { uid } = getState().auth;
     const { active: note } = getState().journal;
     const noteToFireStore = { ...note };
@@ -53,5 +56,6 @@ export const startSaveNote = () => {
     const docRef = doc(FirebaseDB, `${uid}/journal-1/notes/${note.id}`);
     await setDoc(docRef, noteToFireStore, { merge: true });
     // dispatch(setActiveNote(note));
+    dispatch(updateNote(note));
   };
 };
