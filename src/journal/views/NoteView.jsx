@@ -1,5 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { SaveOutlined, UploadOutlined } from "@mui/icons-material";
+import {
+  DeleteOutline,
+  SaveOutlined,
+  TimeToLeaveOutlined,
+  UploadOutlined,
+} from "@mui/icons-material";
 import {
   Button,
   Grid,
@@ -13,6 +18,7 @@ import { useForm } from "../../hooks/useForm";
 import { useEffect, useMemo, useRef } from "react";
 import {
   setActiveNote,
+  startDeletingNote,
   startSaveNote,
   startUploadingFiles,
 } from "../../store/journal";
@@ -48,10 +54,16 @@ export const NoteView = () => {
       Swal.fire("Nota actualizada", messageSaved, "success");
     }
   }, [messageSaved]);
+
   const fileInputRef = useRef(null);
 
   const saveNote = () => {
     dispatch(startSaveNote());
+  };
+
+  const onDelete = () => {
+    dispatch(startDeletingNote());
+    Swal.fire("Nota eliminada", "", "success");
   };
   return (
     <Grid
@@ -123,8 +135,14 @@ export const NoteView = () => {
           onChange={onInputChange}
         />
       </Grid>
+      <Grid container justifyContent="end">
+        <Button onClick={onDelete} color="error">
+          <DeleteOutline />
+          Borrar
+        </Button>
+      </Grid>
       {/* Image gallery */}
-      <ImageGallery />
+      <ImageGallery images={note.imageUrls} />
     </Grid>
   );
 };
